@@ -42,29 +42,62 @@ def check_collisions():
 def game_over():
     pass
 ```
-### Étape 3 – Créer une fenêtre noire avec le score
-- Importer les modules de base : 
+### Étape 3 – Création de la fenêtre de jeu Snake
+## Importer les modules de base : 
 ```python
 from tkinter import *
 ```
-- Créer la fenêtre principale :
+## Créer la fenêtre principale :
 ```python
 root = Tk()
 root.title("Snake Game")
 ```
-- Définir les dimensions et créer un canevas (canvas) :
+## Définir les dimensions et créer un canevas (canvas) :
 ```python
 canvas_width = 600
 canvas_height = 400
 canvas = Canvas(root, width=canvas_width, height=canvas_height, bg="black")
 canvas.pack()
 ```
-- Ajouter un label de score :
+## Ajout du score avec un label
 ```python
-score = 0
-score_text = canvas.create_text(50, 10, fill="white", font="Arial 14", text=f"Score: {score}", anchor="nw")
+label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
+label.pack()
 ```
-- Lancer la boucle principale :
+On crée un Label (étiquette) affichant le score du joueur.
+La police utilisée est Consolas en taille 40 pour bien voir le texte.
+pack() ajoute le label en haut de la fenêtre automatiquement.
+##  Création de la zone de jeu avec un Canvas
 ```python
-root.mainloop()
+canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
+canvas.pack()
 ```
+Canvas est la surface sur laquelle le jeu va être dessiné.
+La couleur de fond (bg) est définie par la variable BACKGROUND_COLOR.
+Les dimensions sont fixées avec GAME_HEIGHT et GAME_WIDTH.
+## Mise à jour immédiate de la fenêtre
+```python
+window.update()
+```
+Force une première mise à jour de l'interface pour que toutes les dimensions soient calculables juste après.
+##  Récupération des dimensions écran/fenêtre
+```python
+window_width = window.winfo_width()
+window_height = window.winfo_height()
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+```
+Ces lignes permettent de connaître la taille réelle de la fenêtre, et la taille de l'écran.
+##  Centrage de la fenêtre sur l'écran
+```python
+x = int((screen_width/2) - (window_width/2))
+y = int((screen_height/2) - (window_height/2))
+window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+```
+- Calcule la position x et y pour centrer la fenêtre sur l'écran principal.
+- Applique cette position avec geometry() pour un affichage plus professionnel.
+## Lancement de la boucle principale
+```python
+window.mainloop()
+```
+Démarre la boucle d'événements Tkinter pour que la fenêtre reste ouverte et réactive.
