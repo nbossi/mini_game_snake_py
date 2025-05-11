@@ -1,7 +1,7 @@
 from tkinter import *
 import random
 
-# constants for game setting
+# constants for game  setting
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
 SPEED = 50
@@ -13,7 +13,19 @@ BACKGROUND_COLOR = "#000000" # black
 
 # let's define all the different classes and functions that we will need
 class Snake:
-    pass
+    def __init__(self):
+        self.body_size = BODY_PARTS
+        self.coordinates = []
+        self.squares = []
+        # we need to create a list of coordinates
+        for i in range(0, BODY_PARTS):
+            self.coordinates.append([0, 0])
+            # so that our snake appear in the top left corner
+        for x, y in self.coordinates:
+            square = canvas.create_rectangle(x, y, x+SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOR, tag="snake")
+            self.squares.append(square)
+    # now we have our snake on the top corner and we need now to make him move in a given direction 
+            
 
 class Food:
     # je fais d'abord Food car class plus simple à faire
