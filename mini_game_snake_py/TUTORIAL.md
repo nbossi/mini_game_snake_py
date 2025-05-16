@@ -125,3 +125,36 @@ class Food:
 - create_oval(...) dessine un cercle sur le canvas, représentant la nourriture.
 ### Résultat attendu à ce stade 
 Un petit cercle de couleur FOOD_COLOR apparaît aléatoirement sur la grille à chaque création d’objet Food.
+
+### Etape 4 : Mouvement du serpent 
+Pour donner vie au jeu Snake, il faut que le serpent se déplace tout seul à chaque "tour" de jeu. C’est ce qu’on fait avec la fonction next_turn(snake, food).
+#### 🔁 Objectif de next_turn
+Elle sert à :
+
+Faire bouger le serpent dans la direction définie (up, down, left, right)
+Ajouter un nouveau segment au début de son corps
+Dessiner ce nouveau segment dans le canvas
+Relancer automatiquement cette fonction après un certain temps (grâce à window.after()), pour créer une boucle continue
+
+#### 🔍 Détail de la logique :
+1. On récupère la position actuelle de la tête du serpent.
+2. On modifie cette position en fonction de la direction :
+- Haut → on diminue y
+- Bas → on augmente y
+- Gauche → on diminue x
+- Droite → on augmente x
+3. On insère cette nouvelle position au début de la liste des coordonnées :
+’’’python
+snake.coordinates.insert(0, (x, y))
+’’’
+4. On dessine un nouveau carré vert pour représenter cette nouvelle tête :
+’’’python
+square = canvas.create_rectangle(x, y,  x+SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOR)
+snake.squares.insert(0, square)
+’’’
+5. On rappelle next_turn() après un certain temps (défini par SPEED) :
+’’’python
+window.after(SPEED, next_turn, snake, food)
+’’’
+Cela crée une boucle infinie, fluide et régulière.
+ℹ️ Pour l’instant, le serpent grandit à chaque tour, car on ne supprime pas l’ancienne queue. 
