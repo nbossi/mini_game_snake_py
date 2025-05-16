@@ -57,7 +57,11 @@ def next_turn(snake, food):
     
     square = canvas.create_rectangle(x,y, x+SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOR)
     snake.squares.insert(0, square)
-    # we need the time so lets say our game speed 
+
+    # we need to delete the last part of the snake
+    del snake.coordinates[-1]
+    canvas.delete(snake.squares[-1])
+    del snake.squares[-1]
     window.after(SPEED, next_turn, snake, food)
 
 def change_direction():
