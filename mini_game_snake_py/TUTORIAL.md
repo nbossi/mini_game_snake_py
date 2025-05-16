@@ -157,4 +157,41 @@ snake.squares.insert(0, square)
 window.after(SPEED, next_turn, snake, food)
 ’’’
 Cela crée une boucle infinie, fluide et régulière.
-ℹ️ Pour l’instant, le serpent grandit à chaque tour, car on ne supprime pas l’ancienne queue. 
+ℹ️ Pour l’instant, on ajoute un nouveau segment au début du serpent à chaque tour, mais on ne supprime jamais la fin. Résultat : le serpent grandissait indéfiniment.
+
+Pour corriger ça et faire en sorte que le serpent garde toujours la même taille, sauf quand il mange, on supprime le dernier élément de son corps à chaque tour.
+’’’python
+# Supprimer la dernière position du corps (la queue)
+del snake.coordinates[-1]
+
+# Supprimer le carré correspondant dans le canvas
+canvas.delete(snake.squares[-1])
+del snake.squares[-1]
+’’’
+- Le serpent se déplace en ajoutant une nouvelle tête et en supprimant la queue.
+- Cela donne l’illusion qu’il se déplace sans changer de taille.
+- Plus tard, quand le serpent mangera de la nourriture, on ne supprimera pas la queue ce tour-là, ce qui le fera grandir.
+
+### Etape 5 : Contrôler le serpent avec les touches fléchées
+
+Pour que le joueur puisse changer la direction du serpent avec le clavier, on a ajouté :
+
+Une fonction change_direction(new_direction)
+Et un bind sur les flèches du clavier avec window.bind(...)
+
+#### 📌 Fonction change_direction
+Cette fonction change la direction actuelle uniquement si ce n’est pas l’opposé (ex: on ne peut pas aller directement de "left" à "right", sinon on se mord la queue).
+Cela évite les mouvements impossibles qui entraîneraient une collision immédiate avec soi-même.
+#### 🧩 Lien avec le clavier : window.bind(...)
+Ensuite, on relie les touches fléchées du clavier à cette fonction avec : 
+’’’python
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
+’’’
+Quand l'utilisateur appuie sur une flèche, la fonction change_direction() est appelée avec la bonne valeur ('left', 'right', etc.).
+#### Etat actuel
+- Le joueur peut maintenant contrôler le serpent avec les flèches.
+- Le jeu ignore les demi-tours pour éviter une collision automatique.
+- direction est une variable globale partagée avec next_turn() qui décide du mouvement à chaque tour.
